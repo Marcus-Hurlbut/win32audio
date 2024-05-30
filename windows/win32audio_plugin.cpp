@@ -134,7 +134,6 @@ std::vector<DeviceProps> EnumAudioDevices(EDataFlow deviceType, ERole eRole)
                 pActive->GetId(&activeID);
                 activeDevID(activeID);
 
-                device.isActive = false;
                 pActive->Release();
             }
 
