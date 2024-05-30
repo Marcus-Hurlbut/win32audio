@@ -132,7 +132,7 @@ std::vector<DeviceProps> EnumAudioDevices(EDataFlow deviceType, ERole eRole)
             if (pActive != NULL)
             {
                 pActive->GetId(&activeID);
-                activeDevID(activeID);
+                wstring activeDevID(activeID);
                 pActive->Release();
                 return output;
             }
