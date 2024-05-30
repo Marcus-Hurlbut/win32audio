@@ -128,15 +128,13 @@ std::vector<DeviceProps> EnumAudioDevices(EDataFlow deviceType, ERole eRole)
             pEnumerator->GetDefaultAudioEndpoint(deviceType, eRole, &pActive);
             LPWSTR activeID;
 
-            wstring activeDevID;
-            if (pActive != NULL)
+            if (pActive == NULL)
             {
-                pActive->GetId(&activeID);
-                activeDevID(activeID);
-
-                device.isActive = false;
-                pActive->Release();
+                return output;
             }
+            pActive->GetId(&activeID);
+            wstring activeDevID(activeID);
+            pActive->Release();
 
             IMMDeviceCollection *pCollection = NULL;
             hr = pEnumerator->EnumAudioEndpoints(deviceType, DEVICE_STATE_ACTIVE, &pCollection);
@@ -159,7 +157,7 @@ std::vector<DeviceProps> EnumAudioDevices(EDataFlow deviceType, ERole eRole)
                             pDevice->GetId(&id);
                             wstring currentID(id);
                             device.id = currentID;
-                            if (activeDevID != NULL && currentID.compare(activeDevID) == 0)
+                            if (currentID.compare(activeDevID) == 0)
                                 device.isActive = true;
                             else
                                 device.isActive = false;
